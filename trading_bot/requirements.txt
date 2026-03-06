@@ -1,0 +1,5 @@
+# Binance Futures Testnet Trading Bot CLI
+# Python 3.x
+
+requests>=2.28.0,<3.0.0
+python-dotenv>=1.0.0,<2.0.0
