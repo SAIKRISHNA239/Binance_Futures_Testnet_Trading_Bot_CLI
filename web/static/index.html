@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trading Bot Console</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-globes">
+        <div class="globe globe-1"></div>
+        <div class="globe globe-2"></div>
+    </div>
+    <div class="container">
+        <header>
+            <h1>Crypto Web <span>Terminal</span></h1>
+            <p>Binance Futures Testnet (USDT-M)</p>
+        </header>
+
+        <main class="dashboard">
+            <section class="glass-card new-order">
+                <h2>Place Order</h2>
+                <form id="orderForm">
+                    <div class="form-group">
+                        <label for="symbol">Symbol</label>
+                        <input type="text" id="symbol" value="BTCUSDT" required placeholder="e.g. BTCUSDT">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="side">Side</label>
+                            <select id="side" required>
+                                <option value="BUY">BUY (Long)</option>
+                                <option value="SELL">SELL (Short)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="order_type">Type</label>
+                            <select id="order_type" required>
+                                <option value="MARKET">MARKET</option>
+                                <option value="LIMIT">LIMIT</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="quantity">Quantity</label>
+                            <input type="number" id="quantity" step="0.001" value="0.002" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="price">Price (Limit Only)</label>
+                            <input type="number" id="price" step="0.1" disabled placeholder="Market">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary" id="placeOrderBtn">Submit Order</button>
+                    <div id="orderStatus" class="status-msg"></div>
+                </form>
+            </section>
+
+            <section class="glass-card verify-order">
+                <h2>Verify Order</h2>
+                <form id="verifyForm">
+                    <div class="form-group">
+                        <label for="verify_symbol">Symbol</label>
+                        <input type="text" id="verify_symbol" value="BTCUSDT" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="verify_order_id">Order ID</label>
+                        <input type="number" id="verify_order_id" required placeholder="Paste Order ID here">
+                    </div>
+                    <button type="submit" class="btn-secondary" id="verifyBtn">Check Status</button>
+                    <div id="verifyStatus" class="status-msg"></div>
+                </form>
+                
+                <div id="orderResultBox" class="result-box hidden">
+                    <h3>Response:</h3>
+                    <pre id="orderResultContent"></pre>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

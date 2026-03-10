@@ -1,6 +1,6 @@
 # Binance Futures Testnet Trading Bot CLI
 
-Small CLI I put together to place market and limit orders on **Binance Futures Testnet** (USDT-M) without touching the website. It talks to the API directly with `requests` and uses a `.env` file or env vars for keys. Testnet only — no mainnet, so you can mess around safely.
+Small CLI and beautiful Web Application I put together to place market and limit orders on **Binance Futures Testnet** (USDT-M) without touching the main Binance website. It includes a custom FastAPI backend serving a modern Glassmorphism UI, or you can use it directly as a CLI tool. Testnet only — no mainnet.
 
 ## What’s in the repo
 
@@ -13,6 +13,9 @@ trading_bot/
 │   ├── validators.py     # symbol, qty, price checks
 │   └── logging_config.py # logs to logs/trading.log
 ├── cli.py                # argparse + place/verify flow
+├── web/
+│   ├── server.py         # FastAPI backend
+│   └── static/           # HTML/CSS/JS frontend
 ├── requirements.txt
 └── README.md
 ```
@@ -45,7 +48,23 @@ BINANCE_FUTURES_API_SECRET=your_secret_here
 
 Don’t commit `.env` — it’s in `.gitignore`. If you prefer, you can `export` those two vars in your shell instead; the client checks env first, then `.env`.
 
-## Running it
+## Running the Web Interface
+
+The easiest way to use the bot is via the new beautiful Web Interface!
+
+1. Start the FastAPI server (from the project root):
+```bash
+python -m uvicorn web.server:app --port 8000
+```
+2. Open your browser and navigate to `http://127.0.0.1:8000`.
+
+### Demo & Screenshots
+
+![Web Interface Demo](assets/web_ui_demo.webp)
+![Web Interface UI](assets/web_ui_initial.png)
+![Order Success](assets/web_ui_success.png)
+
+## Running the CLI
 
 Still from the project root:
 
@@ -79,6 +98,25 @@ That hits the API and prints whatever Binance has for that order. You can also o
 | `--quantity`  | when placing | Size (must be &gt; 0) |
 | `--price`     | LIMIT only  | Limit price |
 | `--order_id`  | when verifying | Order ID from a previous place |
+
+## Deployment
+
+To deploy this bot so it runs 24/7 without keeping your computer on, you have a few options:
+
+### 1. Cloud Providers (Render, Railway, Heroku)
+You can easily deploy the Web Interface to PaaS providers.
+- **Start Command**: `uvicorn web.server:app --host 0.0.0.0 --port $PORT`
+- **Environment Variables**: Add `BINANCE_FUTURES_API_KEY` and `BINANCE_FUTURES_API_SECRET` in your provider's dashboard (do not commit your `.env` file).
+
+### 2. Docker
+A `Dockerfile` is included in the repository. You can build and run it anywhere Docker is supported (like a DigitalOcean Droplet or AWS EC2).
+```bash
+# Build the image
+docker build -t binance-testnet-bot .
+
+# Run the container (make sure your .env exists)
+docker run -d -p 8000:8000 --env-file .env binance-testnet-bot
+```
 
 ## Things that bite
 
